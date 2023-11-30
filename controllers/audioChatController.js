@@ -1,11 +1,11 @@
 // file: controllers/audioChatController.js
-const chatService = require('../services/chatService');
+const chatService = require("../services/chatService");
 
 exports.transcriptAudio = async (req, res) => {
   const audioFile = req.file;
   try {
     const transcript = await chatService.speechToText(audioFile);
-    console.log('Transcript completed!');
+    console.log("Transcript completed!");
 
     const data = {
       text: transcript,
@@ -32,10 +32,10 @@ exports.audioChat = async (req, res) => {
 
   try {
     const answer = await chatService.chat(prompt, messages);
-    console.log('Answer completed!');
+    console.log("Answer completed!");
 
     const answerAudio = await chatService.textToSpeech(answer, voiceLang, voiceName);
-    console.log('Answer audio completed!');
+    console.log("Answer audio completed!");
 
     const data = {
       answer: answer,
@@ -61,7 +61,7 @@ exports.tts = async (req, res) => {
 
   try {
     const audioBase64 = await chatService.textToSpeech(text, voiceLang, voiceName);
-    console.log('Answer audio completed!');
+    console.log("Answer audio completed!");
 
     const data = {
       audioBase64: audioBase64,
@@ -83,15 +83,8 @@ exports.tti = async (req, res) => {
   const prompt = req.body.prompt;
 
   try {
-    // const imgString = await chatService.textToImage(prompt);
-    // console.log('Answer image completed!');
-
-    // const data = {
-    //   imgString: imgString,
-    // };
-
     const imgUrl = await chatService.textToImage(prompt);
-    console.log('Answer image completed!');
+    console.log("Answer image completed!");
 
     const data = {
       imgUrl: imgUrl,

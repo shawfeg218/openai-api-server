@@ -9,10 +9,7 @@ const ffmpegPath = require("ffmpeg-static");
 ffmpeg.setFfmpegPath(ffmpegPath);
 const { Readable } = require("stream");
 const { v4: uuidv4 } = require("uuid");
-// const textToSpeech = require('@google-cloud/text-to-speech');
-// const speechClient = new textToSpeech.TextToSpeechClient({
-//   keyFilename: './meme-bot-391406-47b18ce0fb21.json',
-// });
+
 const MicrosoftSpeech = require("microsoft-cognitiveservices-speech-sdk");
 const openaiKey = process.env.OPENAI_API_KEY;
 const configuration = new Configuration({ apiKey: openaiKey });
@@ -95,7 +92,7 @@ exports.chat = async (prompt, messages) => {
   try {
     const response = await openai.createChatCompletion({
       // model: 'gpt-4',
-      model: "ft:gpt-3.5-turbo-0613:tku-ethci-lab::8NgJXXCJ",
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
@@ -184,42 +181,6 @@ exports.textToSpeech = async (text, voiceLang, voiceName) => {
   }
 };
 
-// exports.textToImage = async (prompt) => {
-//   try {
-//     console.log('prompt: ', prompt);
-//     const response = await fetch('http://163.13.201.153:7860/sdapi/v1/txt2img', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({
-//         prompt: prompt,
-//         width: 256,
-//         height: 256,
-//         cfg_scale: 30,
-//       }),
-//     });
-
-//     if (!response.ok) {
-//       throw {
-//         name: 'APIError',
-//         message: 'Stable Diffusion API Error',
-//       };
-//     }
-
-//     const data = await response.json();
-//     const imgString = data.images[0];
-//     //    console.log('imgString: ', imgString);
-//     return imgString;
-//   } catch (error) {
-//     console.log('error in ttI: ', error);
-//     throw {
-//       name: 'Text2imageError',
-//       message: error.message,
-//     };
-//   }
-// };
-
 // DALL-E image generation
 exports.textToImage = async (text) => {
   try {
@@ -246,33 +207,3 @@ exports.textToImage = async (text) => {
     }
   }
 };
-
-// // google text to speech
-// exports.textToSpeech = async (answer) => {
-//   const text = `${answer}`;
-//   try {
-//     const response = await speechClient.synthesizeSpeech({
-//       audioConfig: {
-//         audioEncoding: 'MP3',
-//         effectsProfileId: ['small-bluetooth-speaker-class-device'],
-//         pitch: 0,
-//         speakingRate: 1,
-//       },
-//       input: {
-//         text: text,
-//       },
-//       voice: {
-//         languageCode: 'cmn-TW',
-//         name: 'cmn-TW-Standard-C',
-//       },
-//     });
-
-//     const audioContent = response[0].audioContent;
-//     const audioContentBase64 = audioContent.toString('base64');
-
-//     return audioContentBase64;
-//   } catch (error) {
-//     console.log('Error in textToSpeech:', error);
-//     throw error;
-//   }
-// };
